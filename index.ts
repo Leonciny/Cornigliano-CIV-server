@@ -11,7 +11,14 @@ const app = express(),
 
 app.use(cors());
 app.use(bodyParser.json());
-app.listen(PORT, function () {
+app.listen(PORT, () => {
 	console.log(`Server listening on port ${PORT}`);
 })
-console.log()
+
+app.get("/", (req, res) => {
+    res.sendFile("")
+})
+
+app.post("/", (req, res) => {
+
+})
