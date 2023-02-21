@@ -11,14 +11,15 @@ const app = express(),
 
 app.use(cors());
 app.use(bodyParser.json());
-app.listen(PORT, () => {
-	console.log(`Server listening on port ${PORT}`);
-})
+
 
 app.get("/", (req, res) => {
-    res.sendFile("")
+    res.send("c")
 })
 
-app.post("/", (req, res) => {
 
+const awardRouter =require("./routes/awards")
+app.use("/awards",awardRouter)
+app.listen(PORT, () => {
+	console.log(`Server listening on port ${PORT}`);
 })

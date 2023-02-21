@@ -12,11 +12,11 @@ dotenv_1.default.config({ path: `${__dirname}/.env` });
 const app = (0, express_1.default)(), PORT = process_1.default.env.PORT;
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
+app.get("/", (req, res) => {
+    res.send("c");
+});
+const awardRouter = require("./routes/awards");
+app.use("/awards", awardRouter);
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
-});
-app.get("/", (req, res) => {
-    res.sendFile("");
-});
-app.post("/", (req, res) => {
 });

@@ -2,9 +2,9 @@
   "name": "cornigliano-civ-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start" : "",
+    "devStart" : "nodemon run server.js",
     "test": "jest"
   },
   "repository": {
