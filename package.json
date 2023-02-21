@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "devStart" : "nodemon run server.js",
+    "devStart": "nodemon run server.js",
     "test": "jest"
   },
   "repository": {
@@ -25,6 +25,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "mysql": "^2.18.1",
     "typescript": "^4.9.5"
   }
 }

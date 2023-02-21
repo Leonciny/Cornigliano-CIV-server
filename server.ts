@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import cors from "cors"
 
 dotenv.config({path : `${__dirname}/.env`})
-
+const connection = require('./database/connection')
 const app = express(),
       PORT = process.env.PORT
 
@@ -14,12 +14,25 @@ app.use(bodyParser.json());
 
 
 app.get("/", (req, res) => {
-    res.send("c")
+    let sql = 'SELECT * FROM users';
+    connection.query(sql, (err: any, result: any) => {
+        console.log(result);
+        res.send('Inventory received');
+    });
 })
 
-
+/**
+ * ROUTERS
+ */
 const awardRouter =require("./routes/awards")
 app.use("/awards",awardRouter)
+const userRouter =require("./routes/users")
+app.use("/users",userRouter) 
+const purchaseRouter =require("./routes/purchases")
+app.use("/purchases",purchaseRouter) 
+const shopRouter =require("./routes/shops")
+app.use("/shops",shopRouter) 
 app.listen(PORT, () => {
 	console.log(`Server listening on port ${PORT}`);
 })
+
