@@ -3,8 +3,10 @@ import process from "process"
 import dotenv from "dotenv"
 import bodyParser from "body-parser";
 import cors from "cors"
+import path from "path"
 
-dotenv.config({path : `${__dirname}/.env`})
+console.log(path.join(__dirname, `..`))
+dotenv.config({path : `${path.join(__dirname, `..`)}\\.env`})
 const connection = require('./database/connection')
 const app = express(),
       PORT = process.env.PORT
@@ -25,13 +27,13 @@ app.get("/", (req, res) => {
 /**
  * ROUTERS
  */
-const awardRouter =require("./src/routes/awards")
+const awardRouter =require("./routes/awards")
 app.use("/awards",awardRouter)
-const userRouter =require("./src/routes/users")
+const userRouter =require("./routes/users")
 app.use("/users",userRouter) 
-const purchaseRouter =require("./src/routes/purchases")
+const purchaseRouter =require("./routes/purchases")
 app.use("/purchases",purchaseRouter) 
-const shopRouter =require("./src/routes/shops")
+const shopRouter =require("./routes/shops")
 app.use("/shops",shopRouter) 
 app.listen(PORT, () => {
 	console.log(`Server listening on port ${PORT}`);
