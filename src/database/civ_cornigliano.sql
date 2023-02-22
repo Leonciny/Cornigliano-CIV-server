@@ -1,16 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Creato il: Feb 21, 2023 alle 23:13
--- Versione del server: 10.4.25-MariaDB
--- Versione PHP: 8.1.10
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
 --
 -- Database: `civ_cornigliano`
 --
@@ -40,7 +27,9 @@ Create table Acquisto(
   data_ora date,
   punti int,
   idNegozio int NOT NULL,
-  FOREIGN KEY (idNegozio) REFERENCES Negozio(id)
+  idUtente int NOT NULL,
+  FOREIGN KEY (idNegozio) REFERENCES Negozio(id),
+  FOREIGN KEY (idUtente) REFERENCES Utente(id)
 );
 
 -- --------------------------------------------------------
@@ -53,23 +42,10 @@ Create table Negozio(
   id int auto_increment PRIMARY KEY,
   nome varchar(100),
   data_registrazione date,
-  is_active bool,
+  is_active boolean,
   descrizione varchar(255),
   indirizzo varchar(255),
   coordinate varchar(255)
-);
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `UtenteFaAqcquisto`
---
-Create table UtenteFaAqcuisto(
-  idUtente int Not Null,
-  idAcquisto int Not Null,
-  PRIMARY KEY(idUtente,idAcquisto),
-  FOREIGN KEY (idUtente) REFERENCES Utente(id),
-  FOREIGN KEY (idAcquisto) REFERENCES Acquisto(id)
 );
 
 -- --------------------------------------------------------
@@ -93,9 +69,9 @@ Create table Utente(
 -- Struttura della tabella `UtenteRiscattaPremio`
 --
 Create table UtenteRiscattaPremio(
-  idUtente int Not Null,
-  idPremio int Not Null,
-  is_redeeemed bool,
+  idUtente int NOT NULL,
+  idPremio int NOT NULL,
+  is_redeeemed boolean,
   PRIMARY KEY(idUtente,idPremio),
   FOREIGN KEY (idUtente) REFERENCES Utente(id),
   FOREIGN KEY (idPremio) REFERENCES Premio(id)
