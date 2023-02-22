@@ -8,9 +8,7 @@ const process_1 = __importDefault(require("process"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
-const path_1 = __importDefault(require("path"));
-console.log(path_1.default.join(__dirname, `..`));
-dotenv_1.default.config({ path: `${path_1.default.join(__dirname, `..`)}\\.env` });
+dotenv_1.default.config({ path: `.env` });
 const connection = require('./database/connection');
 const app = (0, express_1.default)(), PORT = process_1.default.env.PORT;
 app.use((0, cors_1.default)());
@@ -30,7 +28,6 @@ const purchaseRouter = require("./routes/purchases");
 app.use("/purchases", purchaseRouter);
 const shopRouter = require("./routes/shops");
 app.use("/shops", shopRouter);
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-});
+console.log("port " + process_1.default.env.PORT);
+app.listen(3000);
 //# sourceMappingURL=server.js.map

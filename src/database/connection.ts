@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import process from "process";
 
-dotenv.config({path : `${__dirname}/.env`})
+dotenv.config({path : `.env`})
 const mysql = require('mysql')
 console.log("cas")
 const connection = mysql.createConnection({
