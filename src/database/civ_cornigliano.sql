@@ -11,12 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `civ_cornigliano`
 --
@@ -24,182 +18,87 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `awards`
+-- Struttura della tabella `Premio`
 --
 
-CREATE TABLE `awards` (
-  `id` int(11) NOT NULL,
-  `descrizione` varchar(255) NOT NULL,
-  `prezzo` int(6) NOT NULL,
-  `quant_magazzino` int(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `purchases`
---
-
-CREATE TABLE `purchases` (
-  `id` int(11) NOT NULL,
-  `data_ora` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `punti` int(6) NOT NULL,
-  `id_shop` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `purchases`
---
-
-INSERT INTO `purchases` (`id`, `data_ora`, `punti`, `id_shop`) VALUES
-(1, '2023-02-21 22:06:34', 123, 1),
-(2, '2023-02-21 22:06:34', 4412, 1);
+Create table Premio(
+  id int auto_increment PRIMARY KEY,
+  nome varchar(50),
+  descrizione varchar(255),
+  punti_necessari int,
+  quant_magazzino int
+);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `shops`
+-- Struttura della tabella `Acquisto`
 --
 
-CREATE TABLE `shops` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(255) NOT NULL,
-  `data_registrazione` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `is_active` tinyint(1) NOT NULL,
-  `indirizzo` varchar(255) NOT NULL,
-  `maps` varchar(255) NOT NULL,
-  `descrizione` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `shops`
---
-
-INSERT INTO `shops` (`id`, `nome`, `data_registrazione`, `is_active`, `indirizzo`, `maps`, `descrizione`) VALUES
-(1, 'da piero', '2023-02-21 22:05:56', 1, 'via cornigliano', 'vvvv', 'questo è un macellaio'),
-(2, 'da pippo', '2023-02-21 22:05:56', 1, 'dddadasdas', 'cacascasasc', 'cascacacas');
+Create table Acquisto(
+  id int auto_increment PRIMARY KEY,
+  data_ora date,
+  punti int,
+  idNegozio int NOT NULL,
+  FOREIGN KEY (idNegozio) REFERENCES Negozio(id)
+);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `transactions`
+-- Struttura della tabella `Negozio`
 --
 
-CREATE TABLE `transactions` (
-  `id` int(11) NOT NULL,
-  `id_user` int(10) NOT NULL,
-  `id_purchase` int(10) NOT NULL,
-  `date_hour` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+Create table Negozio(
+  id int auto_increment PRIMARY KEY,
+  nome varchar(100),
+  data_registrazione date,
+  is_active bool,
+  descrizione varchar(255),
+  indirizzo varchar(255),
+  coordinate varchar(255)
+);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `users`
+-- Struttura della tabella `UtenteFaAqcquisto`
 --
+Create table UtenteFaAqcuisto(
+  idUtente int Not Null,
+  idAcquisto int Not Null,
+  PRIMARY KEY(idUtente,idAcquisto),
+  FOREIGN KEY (idUtente) REFERENCES Utente(id),
+  FOREIGN KEY (idAcquisto) REFERENCES Acquisto(id)
+);
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `users`
---
-
-INSERT INTO `users` (`id`, `email`, `password`) VALUES
-(1, 'gino', 'pino');
+-- --------------------------------------------------------
 
 --
--- Indici per le tabelle scaricate
+-- Struttura della tabella `Utente`
 --
+Create table Utente(
+  id int auto_increment PRIMARY KEY,
+  email varchar(50) UNIQUE,
+  password varchar(50),
+  data_iscr date,
+  username varchar(50) UNIQUE,
+  nome varchar(50),
+  punti int  DEFAULT 0
+);
+
+-- --------------------------------------------------------
 
 --
--- Indici per le tabelle `awards`
+-- Struttura della tabella `UtenteRiscattaPremio`
 --
-ALTER TABLE `awards`
-  ADD PRIMARY KEY (`id`);
+Create table UtenteRiscattaPremio(
+  idUtente int Not Null,
+  idPremio int Not Null,
+  is_redeeemed bool,
+  PRIMARY KEY(idUtente,idPremio),
+  FOREIGN KEY (idUtente) REFERENCES Utente(id),
+  FOREIGN KEY (idPremio) REFERENCES Premio(id)
+);
 
---
--- Indici per le tabelle `purchases`
---
-ALTER TABLE `purchases`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_shop` (`id_shop`);
-
---
--- Indici per le tabelle `shops`
---
-ALTER TABLE `shops`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `transactions`
---
-ALTER TABLE `transactions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_user` (`id_user`,`id_purchase`),
-  ADD KEY `id_purchase` (`id_purchase`);
-
---
--- Indici per le tabelle `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT per le tabelle scaricate
---
-
---
--- AUTO_INCREMENT per la tabella `awards`
---
-ALTER TABLE `awards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `purchases`
---
-ALTER TABLE `purchases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT per la tabella `shops`
---
-ALTER TABLE `shops`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT per la tabella `transactions`
---
-ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Limiti per le tabelle scaricate
---
-
---
--- Limiti per la tabella `purchases`
---
-ALTER TABLE `purchases`
-  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`id_shop`) REFERENCES `shops` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Limiti per la tabella `transactions`
---
-ALTER TABLE `transactions`
-  ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`id_purchase`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- --------------------------------------------------------
