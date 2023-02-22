@@ -28,6 +28,5 @@ const purchaseRouter = require("./routes/purchases");
 app.use("/purchases", purchaseRouter);
 const shopRouter = require("./routes/shops");
 app.use("/shops", shopRouter);
-console.log("port " + process_1.default.env.PORT);
-app.listen(3000);
+app.listen(PORT);
 //# sourceMappingURL=server.js.map

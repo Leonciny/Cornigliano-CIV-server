@@ -36,5 +36,4 @@ app.use("/purchases",purchaseRouter)
 const shopRouter =require("./routes/shops")
 app.use("/shops",shopRouter)
 
-console.log("port " + process.env.PORT)
-app.listen(3000);
+app.listen(PORT);

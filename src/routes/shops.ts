@@ -1,7 +1,7 @@
 /**
  * ROUTER OF SHOPS
  */
-const express = require("express")
+import express from "express";
 const router = express.Router()
 /**
  * index of shops contains all shops 

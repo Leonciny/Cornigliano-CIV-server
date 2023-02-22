@@ -1,7 +1,8 @@
+import express from "express";
 /**
  * ROUTER OF PURCHASES
  */
-const express = require("express")
+
 const router = express.Router()
 /**
  * index of purchases contains all purchases
