@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "devStart": "nodemon run server.js",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

@@ -17,17 +17,18 @@ app.get("/", (req, res) => {
     let sql = 'SELECT * FROM users';
     connection.query(sql, (err, result) => {
         console.log(result);
-        res.send('Inventory received');
+        res.send("ds+èhèdrhdrthr");
     });
 });
-const awardRouter = require("./routes/awards");
+const awardRouter = require("./src/routes/awards");
 app.use("/awards", awardRouter);
-const userRouter = require("./routes/users");
+const userRouter = require("./src/routes/users");
 app.use("/users", userRouter);
-const purchaseRouter = require("./routes/purchases");
+const purchaseRouter = require("./src/routes/purchases");
 app.use("/purchases", purchaseRouter);
-const shopRouter = require("./routes/shops");
+const shopRouter = require("./src/routes/shops");
 app.use("/shops", shopRouter);
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
+//# sourceMappingURL=server.js.map
