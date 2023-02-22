@@ -1,6 +1,4 @@
-/**
- * ROUTER OF SHOPS
- */
+
 import express from "express";
 const router = express.Router()
 //index

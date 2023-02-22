@@ -13,6 +13,7 @@ const app = (0, express_1.default)(), PORT = process_1.default.env.PORT;
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
 app.get("/", (req, res) => {
+    res.send("ds+èhèdrhdrthr");
 });
 const awardRouter = require("./routes/api/awards");
 app.use("/api/awards", awardRouter);
