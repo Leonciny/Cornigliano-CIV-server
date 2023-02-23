@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 router.post("/", (req, res) => {
+    res.send("dio bastardo schifoso animale");
 });
 router.get("/:id", (req, res) => {
 });

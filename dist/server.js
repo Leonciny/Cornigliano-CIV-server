@@ -15,13 +15,8 @@ app.use(body_parser_1.default.json());
 app.get("/", (req, res) => {
     res.send("ds+èhèdrhdrthr");
 });
-const awardRouter = require("./routes/api/awards");
-app.use("/api/awards", awardRouter);
-const userRouter = require("./routes/api/users");
-app.use("/api/users", userRouter);
-const purchaseRouter = require("./routes/api/purchases");
-app.use("/api/purchases", purchaseRouter);
-const shopRouter = require("./routes/api/shops");
-app.use("/api/shops", shopRouter);
+const routesDir = "./routes/api/";
+const routes = ["awards", "users", "purchases", "achieveds", "shops"];
+routes.forEach((route) => app.use(`/api/${route}`, require(routesDir + route)));
 app.listen(PORT);
 //# sourceMappingURL=server.js.map
