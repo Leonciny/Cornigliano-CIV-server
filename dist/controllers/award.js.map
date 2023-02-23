@@ -1,0 +1,1 @@
+{"version":3,"file":"award.js","sourceRoot":"","sources":["../../src/controllers/award.ts"],"names":[],"mappings":";;AAAA,MAAM,UAAU,GAAG,OAAO,CAAC,uBAAuB,CAAC,CAAA;AACnD,SAAS,KAAK;IACV,IAAI,GAAG,GAAG,sBAAsB,CAAC;IACjC,UAAU,CAAC,KAAK,CAAC,GAAG,EAAE,CAAC,GAAQ,EAAE,MAAW,EAAE,EAAE;QAC5C,OAAO,MAAM,CAAC;IAClB,CAAC,CAAC,CAAC;AACP,CAAC"}

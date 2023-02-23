@@ -8,27 +8,15 @@ const process_1 = __importDefault(require("process"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
-dotenv_1.default.config({ path: `${__dirname}/.env` });
-const connection = require('./database/connection');
+dotenv_1.default.config({ path: `.env` });
 const app = (0, express_1.default)(), PORT = process_1.default.env.PORT;
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
 app.get("/", (req, res) => {
-    let sql = 'SELECT * FROM users';
-    connection.query(sql, (err, result) => {
-        console.log(result);
-        res.send("ds+èhèdrhdrthr");
-    });
+    res.send("ds+èhèdrhdrthr");
 });
-const awardRouter = require("./src/routes/awards");
-app.use("/awards", awardRouter);
-const userRouter = require("./src/routes/users");
-app.use("/users", userRouter);
-const purchaseRouter = require("./src/routes/purchases");
-app.use("/purchases", purchaseRouter);
-const shopRouter = require("./src/routes/shops");
-app.use("/shops", shopRouter);
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-});
+const routesDir = "./routes/api/";
+const routes = ["awards", "users", "purchases", "achieveds", "shops"];
+routes.forEach((route) => app.use(`/api/${route}`, require(routesDir + route)));
+app.listen(PORT);
 //# sourceMappingURL=server.js.map
