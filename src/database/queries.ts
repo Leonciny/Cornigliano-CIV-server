@@ -11,48 +11,110 @@ const dictQuery = {
     'showNegoziActive'    : "SELECT id, nome, indirizzo FROM Negozio WHERE is_active=true",
     'showNegoziNotActive' : "SELECT id, nome, indirizzo FROM Negozio WHERE is_active=false",
     'showNegozio'         : "SELECT nome, descrizione, indirizzo, coordinate FROM Negozio WHERE id="+ PARAM_ID,
-    'showAllNegozi'       : "SELECT id ,nome, indirizzo FROM Negozio",
+    'showAllNegozi'       : "SELECT id ,nome, indirizzo FROM Negozio ORDER BY is_active DESC",
     'addNegozio'          : "INSERT INTO Negozio(nome,data_registrazione,is_active,descrizione,indirizzo,coordinate) VALUES("+PARAM_ID+","+PARAM_ID+", true,"+PARAM_ID+","+PARAM_ID+","+PARAM_ID+")",
     'addAcquisto'         : "INSERT INTO Acquisto(data_ora,punti,idMegozio,idUtente) VALUES("+PARAM_ID+","+PARAM_ID+","+PARAM_ID+","+PARAM_ID+")",
-    'addPunti'            : "UPDATE Utente SET punti = (SELECT punti FROM Utente WHERE id="+PARAM_ID+")+"+PARAM_ID+"WHERE id="+PARAM_ID,
-    'redeemPremio'        : "INSERT INTO UtenteRiscattaPremio(idUtente,idPremio,is_reedemed) VALUES("+PARAM_ID+","+PARAM_ID+",true)",
-    'removePunti'         : "UPDATE Utente SET punti = (SELECT punti FROM Utente WHERE id="+PARAM_ID+")-(SELECT punti_necessari FROM Premio WHERE id="+PARAM_ID+")"
+    'addPunti'            : "UPDATE Utente SET punti = punti+"+PARAM_ID+"WHERE id="+PARAM_ID,
+    'redeemPremio'        : "INSERT INTO UtenteRiscattaPremio(idUtente,idPremio) VALUES("+PARAM_ID+","+PARAM_ID+")",
+    'removePunti'         : "UPDATE Utente SET punti = punti-(SELECT punti_necessari FROM Premio WHERE id="+PARAM_ID+") WHERE id="+PARAM_ID+" AND punti>=(SELECT punti_necessari FROM Premio WHERE id="+PARAM_ID+")"
 }
 
 function useQueries(...parameters: Array<string>){
     switch(parameters[0]){
-        case "login": if(parameters.length != 3)
+        case "login":
+                    if(parameters.length != 3)
                         return "ERROR: Incorrect number of parameters. Required (Username OR Email),password: 2"
-                    if(typeof parameters[1] === "string" && parameters[1].indexOf('@')!=-1){
-                        dictQuery.login.replace(PARAM_ID,parameters[1])
-                        dictQuery.login.replace(PARAM_ID,parameters[1])
-                        dictQuery.login.replace(PARAM_ID,parameters[2])
-                    }
-                    else
-                        return "ERROR: required a username or email"
-                    break
-        case "findUtente": if(parameters.length != 2)
+                    let query = dictQuery.login
+                    query = query.replace(PARAM_ID,parameters[1])
+                    query = query.replace(PARAM_ID,parameters[1])
+                    query = query.replace(PARAM_ID,parameters[2])
+                    return query
+        case "findUtente": 
+                        if(parameters.length != 2)
+                            return "ERROR: Incorrect number of parameters. Required username or email: 1"
+                        let query = dictQuery.findUtente.replace(PARAM_ID,parameters[1])
+                        query = query.replace(PARAM_ID,parameters[1])
+                        return query
+        case "showUtente": 
+                        if(parameters.length != 2)
                             return "ERROR: Incorrect number of parameters. Required ID: 1"
-                          dictQuery.findUtente.replace(PARAM_ID,parameters[1])
-                          break
-        case "addUtente": if(parameters.length != 6)
-                            return "ERROR: Incorrect number of parameters. Required Username,email,nome,data_registrazione,password: 5"
+                        return dictQuery.showUtente.replace(PARAM_ID,parameters[1])
+        case "addUtente": 
+                        if(parameters.length != 6)
+                            return "ERROR: Incorrect number of parameters. Required Username, email, nome, data_registrazione, password: 5"
+                        let query = dictQuery.addUtente
                         for(let i=1;dictQuery.addUtente.indexOf(PARAM_ID)!=-1;i++){
-                            dictQuery.addUtente.replace(PARAM_ID,parameters[i])
+                            query = query.replace(PARAM_ID,parameters[i])
                         }
-                        break
+                        return query
+        case "showAllPremi":
+                            if(parameters.length != 1)
+                                return "ERROR: Incorrect number of parameters. NOT required: 0"
+                            return dictQuery.showAllPremi
+        case "showPremio":
+                            if(parameters.length != 2)
+                                return "ERROR: Incorrect number of parameters. Required ID: 1"
+                            return dictQuery.showPremio.replace(PARAM_ID,parameters[1])
+        case "addPremio":   
+                        if(parameters.length != 5)
+                            return "ERROR: Incorrect number of parameters. Required nome, descrizione, punti_necessari, quant_magazzino: 4"
+                        let query = dictQuery.addPremio
+                        for(let i=1;dictQuery.addPremio.indexOf(PARAM_ID)!=-1;i++){
+                            query = query.replace(PARAM_ID,parameters[i])
+                        }
+                        return query
         case "showNegoziActive": if(parameters.length != 1)
                                     return "ERROR: Incorrect number of parameters. NOT required: 0"
                                 return dictQuery.showNegoziActive
-                                break
         case "showNegoziNotActive": if(parameters.length != 1)
                                         return "ERROR: Incorrect number of parameters. NOT required: 0"
                                     return dictQuery.showNegoziNotActive
-                                    break
         case "showNegozio": if(parameters.length != 2)
                                 return "ERROR: Incorrect number of parameters. Required only ID: 1"
-                            dictQuery.showNegozio.replace(PARAM_ID,parameters[1])
-                            break
+                            queryResult = dictQuery.showNegozio.replace(PARAM_ID,parameters[1])
+                            return queryResult
+        case "showAllNegozi":
+                            if(parameters.length != 1)
+                                return "ERROR: Incorrect number of parameters. NOT required: 0"
+                            return dictQuery.showAllNegozi
+        case "addNegozio": 
+                        if(parameters.length != 7)
+                            return "ERROR: Incorrect number of parameters. Required nome, data_registrazione, is_active, descrizione, indirizzo, coordinate: 6"
+                        let query = dictQuery.addNegozio
+                        for(let i=1;dictQuery.addNegozio.indexOf(PARAM_ID)!=-1;i++){
+                            query = query.replace(PARAM_ID,parameters[i])
+                        }
+                        return query
+        case "addAcquisto": 
+                        if(parameters.length != 5)
+                            return "ERROR: Incorrect number of parameters. Required data_ora, punti, idMegozio, idUtente: 4"
+                        let query = dictQuery.addAcquisto
+                        for(let i=1;dictQuery.addAcquisto.indexOf(PARAM_ID)!=-1;i++){
+                            query = query.replace(PARAM_ID,parameters[i])
+                        }
+                        return query
+        case "addPunti":
+                        if(parameters.length != 3)
+                            return "ERROR: Incorrect number of parameters. Required punti, ID: 2"
+                        let query = dictQuery.addPunti
+                        query = query.replace(PARAM_ID,parameters[1])
+                        query = query.replace(PARAM_ID,parameters[2])
+                        return query
+        case "redeemPremio":
+                        if(parameters.length != 3)
+                            return "ERROR: Incorrect number of parameters. Required idUtente, idPremio: 2"
+                        let query = dictQuery.redeemPremio
+                        query = query.replace(PARAM_ID,parameters[1])
+                        query = query.replace(PARAM_ID,parameters[2])
+                        return query
+        case "removePunti":
+                        if(parameters.length != 3)
+                            return "ERROR: Incorrect number of parameters. Required idPremio, idUtente: 2"
+                        let query = dictQuery.removePunti
+                        query = query.replace(PARAM_ID,parameters[1])
+                        query = query.replace(PARAM_ID,parameters[2])
+                        query = query.replace(PARAM_ID,parameters[1])
+                        return query
     }
 }
 export default useQueries()
